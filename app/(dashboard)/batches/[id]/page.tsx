@@ -88,7 +88,9 @@ export default async function BatchDetailPage({ params }: { params: Promise<{ id
   const { batch, mortalityRecords, vaccinations } = data;
   const ageInDays = daysBetween(new Date(batch.startDate), new Date());
   const ageWeeks = Math.floor(ageInDays / 7);
-  const mortalityRate = ((batch.initialSize - batch.currentSize) / batch.initialSize * 100).toFixed(1);
+  const mortalityRate = batch.initialSize > 0
+    ? ((batch.initialSize - batch.currentSize) / batch.initialSize * 100).toFixed(1)
+    : '0.0';
   const totalMortalities = batch.initialSize - batch.currentSize;
 
   return (
