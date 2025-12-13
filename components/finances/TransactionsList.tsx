@@ -43,19 +43,23 @@ interface Transaction {
 interface TransactionsListProps {
   refreshKey?: number;
   onRefresh?: () => void;
+  batchId?: string;
 }
 
-export default function TransactionsList({ refreshKey, onRefresh }: TransactionsListProps) {
+export default function TransactionsList({ refreshKey, onRefresh, batchId }: TransactionsListProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchTransactions();
-  }, [refreshKey]);
+  }, [refreshKey, batchId]);
 
   const fetchTransactions = async () => {
     try {
-      const response = await fetch('/api/transactions');
+      const url = batchId
+        ? `/api/transactions?batch=${batchId}`
+        : '/api/transactions';
+      const response = await fetch(url);
       const result = await response.json();
       if (result.success) {
         setTransactions(result.data.slice(0, 50)); // Limit to 50 recent transactions

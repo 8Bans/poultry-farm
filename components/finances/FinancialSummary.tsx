@@ -6,9 +6,10 @@ import { TrendingUp, TrendingDown, DollarSign, Percent } from 'lucide-react';
 
 interface FinancialSummaryProps {
   refreshKey?: number;
+  batchId?: string;
 }
 
-export default function FinancialSummary({ refreshKey }: FinancialSummaryProps) {
+export default function FinancialSummary({ refreshKey, batchId }: FinancialSummaryProps) {
   const [summary, setSummary] = useState({
     totalIncome: 0,
     totalExpenses: 0,
@@ -19,11 +20,14 @@ export default function FinancialSummary({ refreshKey }: FinancialSummaryProps) 
 
   useEffect(() => {
     fetchSummary();
-  }, [refreshKey]);
+  }, [refreshKey, batchId]);
 
   const fetchSummary = async () => {
     try {
-      const response = await fetch('/api/finances/analytics?period=6months');
+      const url = batchId
+        ? `/api/finances/analytics?period=6months&batch=${batchId}`
+        : '/api/finances/analytics?period=6months';
+      const response = await fetch(url);
       const result = await response.json();
       if (result.success) {
         setSummary(result.data.summary);

@@ -20,22 +20,26 @@ import {
 
 interface FinancialChartsProps {
   refreshKey?: number;
+  batchId?: string;
 }
 
 const COLORS = ['#10b981', '#3b82f6', '#f97316', '#ef4444', '#8b5cf6', '#ec4899'];
 
-export default function FinancialCharts({ refreshKey }: FinancialChartsProps) {
+export default function FinancialCharts({ refreshKey, batchId }: FinancialChartsProps) {
   const [monthlyData, setMonthlyData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchAnalytics();
-  }, [refreshKey]);
+  }, [refreshKey, batchId]);
 
   const fetchAnalytics = async () => {
     try {
-      const response = await fetch('/api/finances/analytics?period=6months');
+      const url = batchId
+        ? `/api/finances/analytics?period=6months&batch=${batchId}`
+        : '/api/finances/analytics?period=6months';
+      const response = await fetch(url);
       const result = await response.json();
       if (result.success) {
         setMonthlyData(result.data.monthlyTrends);

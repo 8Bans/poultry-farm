@@ -9,6 +9,7 @@ import SummaryCards from '@/components/dashboard/SummaryCards';
 import VaccineReminders from '@/components/notifications/VaccineReminders';
 import BatchFilter from '@/components/dashboard/BatchFilter';
 import DashboardClientWrapper from '@/components/dashboard/DashboardClientWrapper';
+import DashboardFinancialSummary from '@/components/dashboard/DashboardFinancialSummary';
 import { Types } from 'mongoose';
 
 async function getDashboardData(userId: string, batchId?: string) {
@@ -141,6 +142,8 @@ export default async function DashboardPage({
       </div>
 
       <SummaryCards data={data} />
+
+      <DashboardFinancialSummary batchId={batchId} />
 
       <DashboardClientWrapper batchId={batchId} />
     </div>

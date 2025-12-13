@@ -21,6 +21,9 @@ export async function GET(request: NextRequest) {
     const endDate = new Date();
 
     switch (period) {
+      case '30days':
+        startDate = subMonths(new Date(), 1);
+        break;
       case '1month':
         startDate = startOfMonth(new Date());
         break;
