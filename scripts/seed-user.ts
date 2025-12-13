@@ -5,11 +5,11 @@ import { resolve } from 'path';
 
 config({ path: resolve(__dirname, '../.env.local') });
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
+if (!process.env.MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
+
+const MONGODB_URI: string = process.env.MONGODB_URI;
 
 interface IUser {
   email: string;

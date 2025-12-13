@@ -28,17 +28,21 @@ export async function GET() {
       const scheduledDate = new Date(vaccination.scheduledDate);
       const daysUntil = Math.ceil((scheduledDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
+      // Type assertion for populated fields
+      const batchId = vaccination.batchId as any;
+      const userId = vaccination.userId as any;
+
       let message = '';
       let shouldNotify = false;
 
       if (isSameDay(scheduledDate, today)) {
-        message = `Vaccination "${vaccination.vaccineName}" for batch ${vaccination.batchId.name} is scheduled TODAY!`;
+        message = `Vaccination "${vaccination.vaccineName}" for batch ${batchId.name} is scheduled TODAY!`;
         shouldNotify = true;
       } else if (isSameDay(scheduledDate, tomorrow)) {
-        message = `Vaccination "${vaccination.vaccineName}" for batch ${vaccination.batchId.name} is scheduled TOMORROW!`;
+        message = `Vaccination "${vaccination.vaccineName}" for batch ${batchId.name} is scheduled TOMORROW!`;
         shouldNotify = true;
       } else if (daysUntil === 3) {
-        message = `Vaccination "${vaccination.vaccineName}" for batch ${vaccination.batchId.name} is scheduled in 3 days.`;
+        message = `Vaccination "${vaccination.vaccineName}" for batch ${batchId.name} is scheduled in 3 days.`;
         shouldNotify = true;
       }
 
@@ -72,16 +76,16 @@ export async function GET() {
 
               await resend.emails.send({
                 from: process.env.EMAIL_FROM || 'Poultry Farm <noreply@yourdomain.com>',
-                to: vaccination.userId.email,
+                to: userId.email,
                 subject: 'Vaccination Reminder',
                 html: `
                   <h2>Vaccination Reminder</h2>
-                  <p>Hello ${vaccination.userId.name},</p>
+                  <p>Hello ${userId.name},</p>
                   <p>${message}</p>
                   <p><strong>Details:</strong></p>
                   <ul>
                     <li>Vaccine: ${vaccination.vaccineName}</li>
-                    <li>Batch: ${vaccination.batchId.name} (${vaccination.batchId.batchCode})</li>
+                    <li>Batch: ${batchId.name} (${batchId.batchCode})</li>
                     <li>Scheduled Date: ${scheduledDate.toLocaleDateString()}</li>
                   </ul>
                   <p>Please ensure this vaccination is administered on time.</p>

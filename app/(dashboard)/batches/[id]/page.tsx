@@ -272,10 +272,10 @@ export default async function BatchDetailPage({ params }: { params: Promise<{ id
                         {vaccination.vaccineName}
                       </p>
                       <Badge
-                        variant={vaccination.completed ? 'default' : 'secondary'}
-                        className={vaccination.completed ? 'bg-green-500' : ''}
+                        variant={vaccination.completedDate ? 'default' : 'secondary'}
+                        className={vaccination.completedDate ? 'bg-green-500' : ''}
                       >
-                        {vaccination.completed ? 'Completed' : 'Scheduled'}
+                        {vaccination.completedDate ? 'Completed' : 'Scheduled'}
                       </Badge>
                     </div>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -289,7 +289,7 @@ export default async function BatchDetailPage({ params }: { params: Promise<{ id
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {vaccination.completed && vaccination.completedDate
+                      {vaccination.completedDate
                         ? formatDate(new Date(vaccination.completedDate))
                         : formatDate(new Date(vaccination.scheduledDate))}
                     </p>
