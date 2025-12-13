@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx shadcn@latest init -d)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npm run build:*)",
+      "Bash(nvm install:*)",
+      "Bash(nvm use:*)",
+      "Bash(nvm alias:*)",
+      "Bash(nvm list:*)",
+      "Bash(openssl rand:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(npm run seed:admin:*)",
+      "Bash(npm run seed:user:*)",
+      "Bash(npm run delete:eggs:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
