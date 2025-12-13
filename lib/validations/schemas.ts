@@ -69,6 +69,24 @@ export const markVaccinationCompleteSchema = z.object({
   completedDate: z.string().or(z.date()).optional(),
 });
 
+export const createTransactionSchema = z.object({
+  type: z.enum(['income', 'expense']),
+  category: z.string().min(1, 'Category is required'),
+  amount: z.number().min(0, 'Amount cannot be negative'),
+  description: z.string().min(1, 'Description is required'),
+  batchId: z.string().optional(),
+  date: z.string().or(z.date()).optional(),
+});
+
+export const updateTransactionSchema = z.object({
+  type: z.enum(['income', 'expense']).optional(),
+  category: z.string().min(1).optional(),
+  amount: z.number().min(0).optional(),
+  description: z.string().min(1).optional(),
+  batchId: z.string().optional(),
+  date: z.string().or(z.date()).optional(),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type CreateBatchInput = z.infer<typeof createBatchSchema>;
@@ -79,3 +97,5 @@ export type CreateIncubatorLogInput = z.infer<typeof createIncubatorLogSchema>;
 export type CreateFeedLogInput = z.infer<typeof createFeedLogSchema>;
 export type CreateVaccinationInput = z.infer<typeof createVaccinationSchema>;
 export type MarkVaccinationCompleteInput = z.infer<typeof markVaccinationCompleteSchema>;
+export type CreateTransactionInput = z.infer<typeof createTransactionSchema>;
+export type UpdateTransactionInput = z.infer<typeof updateTransactionSchema>;

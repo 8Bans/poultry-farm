@@ -16,6 +16,11 @@ const navItems = [
     label: 'Batches',
     icon: Package2,
   },
+  {
+    href: '/finances',
+    label: 'Finances',
+    icon: DollarSign,
+  },
 ];
 
 export function Navigation() {
