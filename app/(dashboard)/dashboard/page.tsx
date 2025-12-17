@@ -30,6 +30,9 @@ async function getDashboardData(userId: string, batchId?: string) {
   const totalChicks = chickBatches.reduce((sum, batch) => sum + batch.currentSize, 0);
   const totalAdults = adultBatches.reduce((sum, batch) => sum + batch.currentSize, 0);
 
+  const totalMales = batches.reduce((sum, batch) => sum + (batch.maleCount || 0), 0);
+  const totalFemales = batches.reduce((sum, batch) => sum + (batch.femaleCount || 0), 0);
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
@@ -78,6 +81,8 @@ async function getDashboardData(userId: string, batchId?: string) {
     totalBirds,
     totalChicks,
     totalAdults,
+    totalMales,
+    totalFemales,
     eggsCollectedToday: eggsToday[0]?.collected || 0,
     eggsSoldToday: eggsToday[0]?.sold || 0,
     eggsSpoiledToday: eggsToday[0]?.spoiled || 0,
