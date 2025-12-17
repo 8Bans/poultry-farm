@@ -35,6 +35,8 @@ interface Batch {
   category: 'chick' | 'adult';
   startDate: string;
   archived: boolean;
+  maleCount?: number;
+  femaleCount?: number;
 }
 
 interface BatchEditFormProps {
@@ -50,6 +52,8 @@ export default function BatchEditForm({ batch }: BatchEditFormProps) {
     breed: batch.breed,
     category: batch.category,
     archived: batch.archived,
+    maleCount: batch.maleCount ?? undefined,
+    femaleCount: batch.femaleCount ?? undefined,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -157,6 +161,39 @@ export default function BatchEditForm({ batch }: BatchEditFormProps) {
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Update if birds have matured from chicks to adults
         </p>
+      </div>
+
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Gender Breakdown (Optional)</Label>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Track male and female counts when gender is known
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="maleCount">Male Count</Label>
+            <Input
+              id="maleCount"
+              type="number"
+              min="0"
+              placeholder="Optional"
+              value={formData.maleCount ?? ''}
+              onChange={(e) => setFormData({ ...formData, maleCount: e.target.value ? parseInt(e.target.value) : undefined })}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="femaleCount">Female Count</Label>
+            <Input
+              id="femaleCount"
+              type="number"
+              min="0"
+              placeholder="Optional"
+              value={formData.femaleCount ?? ''}
+              onChange={(e) => setFormData({ ...formData, femaleCount: e.target.value ? parseInt(e.target.value) : undefined })}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="space-y-2">

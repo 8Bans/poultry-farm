@@ -20,6 +20,8 @@ export const createBatchSchema = z.object({
   startDate: z.string().or(z.date()),
   totalCost: z.number().min(0, 'Total cost cannot be negative').optional(),
   vaccineTemplateIds: z.array(z.string()).optional(),
+  maleCount: z.number().int().min(0, 'Male count cannot be negative').optional(),
+  femaleCount: z.number().int().min(0, 'Female count cannot be negative').optional(),
 });
 
 export const updateBatchSchema = z.object({
@@ -27,6 +29,8 @@ export const updateBatchSchema = z.object({
   breed: z.string().min(1).optional(),
   category: z.enum(['chick', 'adult']).optional(),
   archived: z.boolean().optional(),
+  maleCount: z.number().int().min(0, 'Male count cannot be negative').optional(),
+  femaleCount: z.number().int().min(0, 'Female count cannot be negative').optional(),
 });
 
 export const createMortalitySchema = z.object({
