@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, SkullIcon, Egg, Package, Syringe, ThermometerSun } from 'lucide-react';
+import { Plus, SkullIcon, Egg, Package, Syringe, ThermometerSun, List } from 'lucide-react';
 import BatchDialog from '@/components/dialogs/BatchDialog';
 import MortalityDialog from '@/components/dialogs/MortalityDialog';
 import EggDialog from '@/components/dialogs/EggDialog';
 import FeedDialog from '@/components/dialogs/FeedDialog';
+import FeedListDialog from '@/components/dialogs/FeedListDialog';
 import VaccinationDialog from '@/components/dialogs/VaccinationDialog';
 import IncubatorDialog from '@/components/dialogs/IncubatorDialog';
 
@@ -20,6 +21,7 @@ export default function QuickActions({ onDataChange }: QuickActionsProps) {
   const [mortalityOpen, setMortalityOpen] = useState(false);
   const [eggOpen, setEggOpen] = useState(false);
   const [feedOpen, setFeedOpen] = useState(false);
+  const [feedListOpen, setFeedListOpen] = useState(false);
   const [vaccinationOpen, setVaccinationOpen] = useState(false);
   const [incubatorOpen, setIncubatorOpen] = useState(false);
 
@@ -80,6 +82,15 @@ export default function QuickActions({ onDataChange }: QuickActionsProps) {
           </Button>
 
           <Button
+            onClick={() => setFeedListOpen(true)}
+            variant="outline"
+            className="h-20 flex flex-col gap-2"
+          >
+            <List className="h-5 w-5" />
+            <span>Manage Feed Records</span>
+          </Button>
+
+          <Button
             onClick={() => setVaccinationOpen(true)}
             variant="outline"
             className="h-20 flex flex-col gap-2"
@@ -95,6 +106,7 @@ export default function QuickActions({ onDataChange }: QuickActionsProps) {
       <MortalityDialog open={mortalityOpen} onOpenChange={handleDialogClose(setMortalityOpen)} />
       <EggDialog open={eggOpen} onOpenChange={handleDialogClose(setEggOpen)} />
       <FeedDialog open={feedOpen} onOpenChange={handleDialogClose(setFeedOpen)} />
+      <FeedListDialog open={feedListOpen} onOpenChange={handleDialogClose(setFeedListOpen)} />
       <VaccinationDialog open={vaccinationOpen} onOpenChange={handleDialogClose(setVaccinationOpen)} />
     </>
   );
