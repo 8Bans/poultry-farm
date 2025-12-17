@@ -6,6 +6,8 @@ interface SummaryCardsProps {
     totalBirds: number;
     totalChicks: number;
     totalAdults: number;
+    totalMales: number;
+    totalFemales: number;
     eggsCollectedToday: number;
     eggsSoldToday: number;
     eggsSpoiledToday: number;
@@ -29,6 +31,13 @@ export default function SummaryCards({ data }: SummaryCardsProps) {
           <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
             {data.totalChicks} chicks, {data.totalAdults} adults
           </p>
+          {(data.totalMales > 0 || data.totalFemales > 0) && (
+            <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+              {data.totalMales > 0 && `${data.totalMales} males`}
+              {data.totalMales > 0 && data.totalFemales > 0 && ', '}
+              {data.totalFemales > 0 && `${data.totalFemales} females`}
+            </p>
+          )}
         </CardContent>
       </Card>
 

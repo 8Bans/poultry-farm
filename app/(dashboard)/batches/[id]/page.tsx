@@ -211,6 +211,25 @@ export default async function BatchDetailPage({ params }: { params: Promise<{ id
                 </p>
               </div>
             </div>
+            {(batch.maleCount !== undefined || batch.femaleCount !== undefined) && (
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">Gender Breakdown</p>
+                <div className="grid grid-cols-2 gap-4">
+                  {batch.maleCount !== undefined && (
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Male</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">{batch.maleCount} birds</p>
+                    </div>
+                  )}
+                  {batch.femaleCount !== undefined && (
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Female</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">{batch.femaleCount} birds</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 

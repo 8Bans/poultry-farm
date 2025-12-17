@@ -58,8 +58,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { name, currentSize, breed, category, startDate, totalCost, vaccineTemplateIds } = validatedFields.data;
+    const { name, currentSize, breed, category, startDate, totalCost, vaccineTemplateIds, maleCount, femaleCount } = validatedFields.data;
     let { batchCode } = validatedFields.data;
+
+    // Validate gender counts don't exceed batch size
+    const totalGenderCount = (maleCount ?? 0) + (femaleCount ?? 0);
+    if (totalGenderCount > currentSize) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Gender counts (${maleCount ?? 0} males + ${femaleCount ?? 0} females = ${totalGenderCount}) cannot exceed batch size (${currentSize})`,
+        },
+        { status: 400 }
+      );
+    }
 
     await connectDB();
 
@@ -83,6 +95,8 @@ export async function POST(request: NextRequest) {
       startDate: new Date(startDate),
       archived: false,
       totalCost,
+      maleCount,
+      femaleCount,
     });
 
     // Auto-create expense transaction if totalCost provided and > 0

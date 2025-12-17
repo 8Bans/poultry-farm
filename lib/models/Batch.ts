@@ -13,6 +13,8 @@ export interface IBatch extends Document {
   archived: boolean;
   totalCost?: number;
   costPerBird?: number;
+  maleCount?: number;
+  femaleCount?: number;
   createdAt: Date;
   updatedAt: Date;
   getAgeInDays(): number;
@@ -81,6 +83,14 @@ const BatchSchema: Schema<IBatch> = new Schema(
     costPerBird: {
       type: Number,
       min: [0, 'Cost per bird cannot be negative'],
+    },
+    maleCount: {
+      type: Number,
+      min: [0, 'Male count cannot be negative'],
+    },
+    femaleCount: {
+      type: Number,
+      min: [0, 'Female count cannot be negative'],
     },
   },
   {

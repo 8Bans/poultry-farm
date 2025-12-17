@@ -80,10 +80,34 @@ export async function PATCH(
 
     await connectDB();
 
+    // Get current batch to check currentSize
+    const existingBatch = await Batch.findOne({ _id: id, userId: session!.user.id });
+
+    if (!existingBatch) {
+      return NextResponse.json(
+        { success: false, error: 'Batch not found' },
+        { status: 404 }
+      );
+    }
+
+    // Validate gender counts don't exceed batch size
+    const maleCount = validatedFields.data.maleCount ?? existingBatch.maleCount ?? 0;
+    const femaleCount = validatedFields.data.femaleCount ?? existingBatch.femaleCount ?? 0;
+
+    if (maleCount + femaleCount > existingBatch.currentSize) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Gender counts (${maleCount} males + ${femaleCount} females = ${maleCount + femaleCount}) cannot exceed batch size (${existingBatch.currentSize})`,
+        },
+        { status: 400 }
+      );
+    }
+
     const batch = await Batch.findOneAndUpdate(
       { _id: id, userId: session!.user.id },
       { $set: validatedFields.data },
-      { new: true }
+      { new: true, runValidators: true }
     );
 
     if (!batch) {
@@ -92,6 +116,13 @@ export async function PATCH(
         { status: 404 }
       );
     }
+
+    // Revalidate pages that display batch data
+    const { revalidatePath } = await import('next/cache');
+    revalidatePath('/dashboard');
+    revalidatePath(`/batches/${id}`);
+    revalidatePath(`/batches/${id}/edit`);
+    revalidatePath('/batches');
 
     return NextResponse.json({
       success: true,

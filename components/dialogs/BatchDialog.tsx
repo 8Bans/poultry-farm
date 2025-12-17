@@ -37,6 +37,8 @@ export default function BatchDialog({ open, onOpenChange }: BatchDialogProps) {
     breed: '',
     startDate: '',
     totalCost: '',
+    maleCount: '',
+    femaleCount: '',
   });
   const [vaccineTemplates, setVaccineTemplates] = useState<VaccineTemplate[]>([]);
   const [selectedVaccineTemplateIds, setSelectedVaccineTemplateIds] = useState<string[]>([]);
@@ -79,6 +81,8 @@ export default function BatchDialog({ open, onOpenChange }: BatchDialogProps) {
           ...formData,
           currentSize: parseInt(formData.currentSize),
           totalCost: formData.totalCost ? parseFloat(formData.totalCost) : undefined,
+          maleCount: formData.maleCount ? parseInt(formData.maleCount) : undefined,
+          femaleCount: formData.femaleCount ? parseInt(formData.femaleCount) : undefined,
           vaccineTemplateIds: selectedVaccineTemplateIds.length > 0 ? selectedVaccineTemplateIds : undefined,
         }),
       });
@@ -90,7 +94,7 @@ export default function BatchDialog({ open, onOpenChange }: BatchDialogProps) {
       }
 
       toast.success('Batch created successfully');
-      setFormData({ name: '', currentSize: '', breed: '', startDate: '', totalCost: '' });
+      setFormData({ name: '', currentSize: '', breed: '', startDate: '', totalCost: '', maleCount: '', femaleCount: '' });
       setSelectedVaccineTemplateIds([]);
       onOpenChange(false);
       router.refresh();
@@ -170,6 +174,39 @@ export default function BatchDialog({ open, onOpenChange }: BatchDialogProps) {
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Total cost to purchase this batch. A transaction will be created automatically.
             </p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Gender Breakdown (Optional)</Label>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Track male and female counts if known at creation
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="maleCount">Male Count</Label>
+                <Input
+                  id="maleCount"
+                  type="number"
+                  min="0"
+                  placeholder="Optional"
+                  value={formData.maleCount}
+                  onChange={(e) => setFormData({ ...formData, maleCount: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="femaleCount">Female Count</Label>
+                <Input
+                  id="femaleCount"
+                  type="number"
+                  min="0"
+                  placeholder="Optional"
+                  value={formData.femaleCount}
+                  onChange={(e) => setFormData({ ...formData, femaleCount: e.target.value })}
+                />
+              </div>
+            </div>
           </div>
 
           {vaccineTemplates.length > 0 && (
