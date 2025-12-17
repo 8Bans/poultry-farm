@@ -61,13 +61,33 @@ export default function BatchEditForm({ batch }: BatchEditFormProps) {
     setIsLoading(true);
 
     try {
+      // Build payload with only defined values to ensure fields are properly updated
+      const payload: any = {
+        name: formData.name,
+        breed: formData.breed,
+        category: formData.category,
+        archived: formData.archived,
+      };
+
+      // Include gender counts if they have values (including 0)
+      if (formData.maleCount !== undefined) {
+        payload.maleCount = formData.maleCount;
+      }
+      if (formData.femaleCount !== undefined) {
+        payload.femaleCount = formData.femaleCount;
+      }
+
+      console.log('[BATCH EDIT] Sending payload:', payload);
+
       const response = await fetch(`/api/batches/${batch._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
+
+      console.log('[BATCH EDIT] Response:', data);
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to update batch');
