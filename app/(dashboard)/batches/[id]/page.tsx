@@ -281,7 +281,17 @@ export default async function BatchDetailPage({ params }: { params: Promise<{ id
             </div>
             <div className="flex items-center gap-2">
               <DownloadVaccinationsButton
-                batch={batch}
+                batch={{
+                  _id: batch._id,
+                  name: batch.name,
+                  batchCode: batch.batchCode,
+                  breed: batch.breed,
+                  startDate: batch.startDate,
+                  currentSize: batch.currentSize,
+                  initialSize: batch.initialSize,
+                  maleCount: batch.maleCount,
+                  femaleCount: batch.femaleCount,
+                }}
                 vaccinations={vaccinations}
               />
               <AddVaccinesButton
