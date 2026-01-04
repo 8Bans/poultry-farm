@@ -204,7 +204,7 @@ export async function generateVaccinationExcel(
   const url = window.URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `${batch.batchCode}_Vaccinations_${
+  link.download = `${batch.name}_Vaccinations_${
     new Date().toISOString().split('T')[0]
   }.xlsx`;
   document.body.appendChild(link);
